@@ -11,10 +11,10 @@ jobs:
     steps:
     
     - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
+      uses: actions/checkout@v1
+    - name: run scripr
+      run: |
+        node ${{github.workspace}}/lib/main.js
     - name: Azure CLI script
       uses: azure/CLI@v1
       with:
