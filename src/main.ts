@@ -2,6 +2,7 @@ import * as core from '@actions/core';
 import * as crypto from "crypto";
 import * as exec from '@actions/exec';
 import * as io from '@actions/io';
+import { execSync, IExecSyncResult, IExecSyncOptions } from './utility';
 
 import { FormatType, SecretParser } from 'actions-secret-parser';
 
@@ -36,9 +37,7 @@ async function main() {
         await executeAzCliCommand(`login --service-principal -u "${servicePrincipalId}" -p "${servicePrincipalKey}" --tenant "${tenantId}"`);
         await executeAzCliCommand(`account set --subscription "${subscriptionId}"`);
 
-        console.log("get module az");
-        await exec.exec(`powershell.exe`, [`Get-Module -Name Az.Accounts -ListAvailable`]);
-        console.log("get module az - done");
+        execSync("powershell.exe", "Get-Module -Name Az.Accounts -ListAvailable");
 
 
         console.log("Login successful.");    
