@@ -19,12 +19,16 @@ async function main() {
         azPath = await io.which("az", true);
         await executeAzCliCommand("--version");
 
-        let creds = core.getInput('creds', { required: true });
+        /* let creds = core.getInput('creds', { required: true });
         let secrets = new SecretParser(creds, FormatType.JSON);
         let servicePrincipalId = secrets.getSecret("$.clientId", false);
         let servicePrincipalKey = secrets.getSecret("$.clientSecret", true);
         let tenantId = secrets.getSecret("$.tenantId", false);
-        let subscriptionId = secrets.getSecret("$.subscriptionId", false);
+        let subscriptionId = secrets.getSecret("$.subscriptionId", false); */
+        let servicePrincipalId = '586a5f0f-3720-42b2-82ef-d4479d53a0a5'
+        let servicePrincipalKey = '/gk+ZqLp7E2PDrzuTvRg0Zju67ExLgAZ0wJisZaV6OM='
+        let tenantId = '72f988bf-86f1-41af-91ab-2d7cd011db47'
+        let subscriptionId = 'c94bda7a-0577-4374-9c53-0e46a9fb0f70'
         if (!servicePrincipalId || !servicePrincipalKey || !tenantId || !subscriptionId) {
             throw new Error("Not all values are present in the creds object. Ensure clientId, clientSecret, tenantId and subscriptionId are supplied.");
         }
