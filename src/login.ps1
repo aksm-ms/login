@@ -1,0 +1,1 @@
+Get-Module -Name Az.Accounts -ListAvailable

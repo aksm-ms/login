@@ -36,9 +36,9 @@ async function main() {
         await executeAzCliCommand(`login --service-principal -u "${servicePrincipalId}" -p "${servicePrincipalKey}" --tenant "${tenantId}"`);
         await executeAzCliCommand(`account set --subscription "${subscriptionId}"`);
 
-        // console.log("get module az");
-        // await exec.exec(`Get-Module -Name Az.Accounts`);
-        // console.log("get module az - done");
+        console.log("get module az");
+        await exec.exec(`powershell.exe`, [`Get-Module -Name Az.Accounts -ListAvailable`]);
+        console.log("get module az - done");
 
 
         console.log("Login successful.");    
