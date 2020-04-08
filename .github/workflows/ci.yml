@@ -17,6 +17,7 @@ jobs:
     - name: 'Validate build'
       run: |
         npm install
+        chmod a+x node_modules/.bin/tsc
         npm run-script build
         
     - name: 'Run L0 tests'
