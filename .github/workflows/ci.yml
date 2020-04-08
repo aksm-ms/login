@@ -16,11 +16,11 @@ jobs:
 
     - name: 'Validate build'
       run: |
-        cd ${{github.workspace}}/login
+        pwd
+        ls -lrt
         npm install
         npm run build
         
     - name: 'Run L0 tests'
       run: |
-        cd ${{github.workspace}}/login
         npm run test
