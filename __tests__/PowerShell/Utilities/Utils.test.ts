@@ -20,6 +20,7 @@ describe('Testing isValidVersion', () => {
 });
 
 describe('Testing setPSModulePath', () => {
+    process.env.PSModulepath = process.env.PSModulepath || "modulepath";
     test('PSModulepath with azPSVersion non-empty', () => {
         Utils.setPSModulePath(version);
         expect(process.env.PSModulepath).toContain(version);
