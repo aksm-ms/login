@@ -8,7 +8,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
         matrix:
-          os: [ubuntu-latest, macos-latest, windows-latest]
+#           os: [ubuntu-latest, macos-latest, windows-latest]
+            os: [ubuntu-latest]
     steps:
 
     - name: 'Checking out repo code'
@@ -17,7 +18,6 @@ jobs:
     - name: 'Validate build'
       run: |
         npm install
-        chmod a+x node_modules/.bin/tsc
         npm run-script build
         
     - name: 'Run L0 tests'
