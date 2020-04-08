@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
         matrix:
-          os: [ubuntu-latest, macos-latest, windows-latest]
+          os: [ubuntu-latest, windows-latest]
     steps:
 
     - name: 'Checking out repo code'
@@ -21,4 +21,4 @@ jobs:
         
     - name: 'Run L0 tests'
       run: |
-        npm test
+        npm run test
