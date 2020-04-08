@@ -22,7 +22,7 @@ describe('Testing isValidVersion', () => {
 describe('Testing setPSModulePath', () => {
     beforeEach(() => {
         if(!(process.env.PSModulePath)) {
-            process.env.PSModulePath = "";
+            process.env.PSModulePath = "modulepath";
         }
     });
     test('PSModulepath with azPSVersion non-empty', () => {
