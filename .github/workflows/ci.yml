@@ -16,8 +16,6 @@ jobs:
 
     - name: 'Validate build'
       run: |
-        pwd
-        ls -lrt
         npm install
         npm run-script build
         
