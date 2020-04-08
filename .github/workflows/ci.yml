@@ -19,8 +19,8 @@ jobs:
         pwd
         ls -lrt
         npm install
-        npm run build
+        npm run-script build
         
     - name: 'Run L0 tests'
       run: |
-        npm run test
+        npm test
