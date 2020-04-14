@@ -12,8 +12,8 @@ jobs:
           os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
     - name: 'Running az login releases v1'
-#       uses: Azure/login@releases/v1
-      uses: Azure/login@794234d1b80d3f246ee7210de0a5a177983d906f
+      uses: Azure/login@v1
+#       uses: Azure/login@794234d1b80d3f246ee7210de0a5a177983d906f
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
     - name: Run account show
