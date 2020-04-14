@@ -16,3 +16,6 @@ jobs:
       uses: Azure/login@releases/v1
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
+    - name: Run account show
+      run: |
+        az account show
