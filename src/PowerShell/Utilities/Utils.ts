@@ -24,7 +24,9 @@ export default class Utils {
                 break;
             case "macos":
             case "darwin":
-                throw new Error(`OS not supported`);
+                azPSVersion = azPSVersion.replace(Constants.prefix, "");
+                modulePath = `/usr/local/share/powershell/Modules/Az/${azPSVersion}:`;
+                // throw new Error(`OS not supported`);
             default:
                 throw new Error(`Unknown os: ${runner.toLowerCase()}`);
         }
