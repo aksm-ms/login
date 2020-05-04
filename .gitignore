@@ -261,7 +261,6 @@ FakesAssemblies/
 
 # Node.js Tools for Visual Studio
 .ntvs_analysis.dat
-node_modules/
 
 # Visual Studio 6 build log
 *.plg
@@ -284,6 +283,7 @@ _Pvt_Extensions
 .paket/paket.exe
 paket-files/
 
+node_modules
 # FAKE - F# Make
 .fake/
 

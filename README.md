@@ -2,7 +2,9 @@
 
 ## Automate your GitHub workflows using Azure Actions
 
-[GitHub Actions](https://help.github.com/en/articles/about-github-actions)  gives you the flexibility to build an automated software development lifecycle workflow. With [GitHub Actions for Azure](https://github.com/Azure/actions/) you can create workflows that you can set up in your repository to build, test, package, release and **deploy** to Azure. 
+[GitHub Actions](https://help.github.com/en/articles/about-github-actions)  gives you the flexibility to build an automated software development lifecycle workflow. 
+
+With [GitHub Actions for Azure](https://github.com/Azure/actions/) you can create workflows that you can set up in your repository to build, test, package, release and **deploy** to Azure. 
 
 # GitHub Action for Azure Login
 With the Azure login Action, you can automate your workflow to do an Azure login using [Azure service principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals) and run Az CLI scripts.
@@ -36,16 +38,22 @@ jobs:
 
 ```
 
-## Configure Azure credentials:
+## Configure deployment credentials:
 
-To fetch the credentials required to authenticate with Azure, run the following command to generate an Azure Service Principal (SPN) with Contributor permissions:
+For any credentials like Azure Service Principal, Publish Profile etc add them as [secrets](https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables) in the GitHub repository and then use them in the workflow.
 
-```sh
-az ad sp create-for-rbac --name "myApp" --role contributor \
+The above example uses user-level credentials i.e., Azure Service Principal for deployment. 
+
+Follow the steps to configure the secret:
+  * Define a new secret under your repository settings, Add secret menu
+  * Store the output of the below [az cli](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) command as the value of secret variable, for example 'AZURE_CREDENTIALS'
+```bash  
+
+   az ad sp create-for-rbac --name "myApp" --role contributor \
                             --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \
                             --sdk-auth
                             
-  # Replace {subscription-id}, {resource-group} with the subscription, resource group details of your keyvault
+  # Replace {subscription-id}, {resource-group} with the subscription, resource group details
 
   # The command should output a JSON object similar to this:
 
@@ -56,8 +64,31 @@ az ad sp create-for-rbac --name "myApp" --role contributor \
     "tenantId": "<GUID>",
     (...)
   }
+  
 ```
-Add the json output as [a secret](https://aka.ms/create-secrets-for-GitHub-workflows) (let's say with the name `AZURE_CREDENTIALS`) in the GitHub repository. 
+  * Now in the workflow file in your branch: `.github/workflows/workflow.yml` replace the secret in Azure login action with your secret (Refer to the example above)
+
+
+# Azure Login metadata file
+
+```yaml
+
+# action.yml
+
+# Login to Azure subscription
+name: 'Login Azure'
+description: 'Login Azure wraps the az login, allowing for Azure actions to log into Azure'
+inputs: 
+  creds: # id of input
+    description: 'Paste the contents of `az ad sp create-for-rbac... as value of secret variable: AZURE_CREDENTIALS'
+    required: true
+branding:
+  icon: 'login.svg' 
+  color: 'blue' 
+runs:
+  using: 'node12'
+  main: 'main.js'
+```
 
 # Contributing
 
