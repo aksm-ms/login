@@ -43,6 +43,7 @@ export default class Utils {
         await PowerShellToolRunner.init();
         await PowerShellToolRunner.executePowerShellScriptBlock(new ScriptBuilder()
                                 .getLatestModuleScript(moduleName), options);
+        console.log(`output: ${output.trim()}`);
         const result = JSON.parse(output.trim());
         if (!(Constants.Success in result)) {
             throw new Error(result[Constants.Error]);
