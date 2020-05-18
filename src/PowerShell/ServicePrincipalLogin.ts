@@ -24,12 +24,22 @@ export class ServicePrincipalLogin implements IAzurePowerShellSession {
     async initialize() {
         let s = Date.now();
         Utils.setPSModulePath();
-        const azLatestVersion: string = await Utils.getLatestModule(Constants.moduleName);
-        core.debug(`Az Module version used: ${azLatestVersion}`);
-        Utils.setPSModulePath(`${Constants.prefix}${azLatestVersion}`);
         let e = Date.now();
         let timeTaken = e - s;
-        console.log(`time taken by intialize: ${Math.floor(timeTaken / 1000)}`);
+        console.log(`time taken by setmodulepath(): ${Math.floor(timeTaken / 1000)}`);
+        
+        s = Date.now();
+        const azLatestVersion: string = await Utils.getLatestModule(Constants.moduleName);
+        e = Date.now();
+        timeTaken = e - s;
+        console.log(`time taken by getLatestModule: ${Math.floor(timeTaken / 1000)}`);
+        core.debug(`Az Module version used: ${azLatestVersion}`);
+
+        s = Date.now();
+        Utils.setPSModulePath(`${Constants.prefix}${azLatestVersion}`);
+        e = Date.now();
+        timeTaken = e - s;
+        console.log(`time taken by setPSModulePath(version): ${Math.floor(timeTaken / 1000)}`);
     }
 
     async login() {
