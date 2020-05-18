@@ -41,7 +41,7 @@ export default class ScriptBuilder {
             $data = ${command}
             $output['${Constants.AzVersion}'] = $data.Version.ToString()
             $output['${Constants.Success}'] = "true"
-            $output['secs'] = $curr.Elapsed.TotalSeconds
+            $output['secs'] = $curr.Elapsed.TotalSeconds.ToString()
         }
         catch {
             $output['${Constants.Error}'] = $_.exception.Message
