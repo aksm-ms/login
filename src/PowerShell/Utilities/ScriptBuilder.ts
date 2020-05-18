@@ -27,10 +27,9 @@ export default class ScriptBuilder {
         catch {
             $output['${Constants.Error}'] = $_.exception.Message
         }
-        $o = ConvertTo-Json $output
         $secs = $curr.Elapsed.TotalSeconds
         echo "time elapses: $secs"
-        return $o`;
+        return ConvertTo-Json $output`;
         core.debug(`Azure PowerShell Login Script: ${this.script}`);
         return this.script;
     }
@@ -49,10 +48,9 @@ export default class ScriptBuilder {
         catch {
             $output['${Constants.Error}'] = $_.exception.Message
         }
-        $o = ConvertTo-Json $output
         $secs = $curr.Elapsed.TotalSeconds
         echo "time elapses: $secs"
-        return $o`;
+        return ConvertTo-Json $output`;
         core.debug(`GetLatestModuleScript: ${this.script}`);
         return this.script;
     }
