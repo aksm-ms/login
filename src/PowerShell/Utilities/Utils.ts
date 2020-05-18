@@ -47,7 +47,7 @@ export default class Utils {
                                 .getLatestModuleScript(moduleName), options);
         let e = Date.now();
         let timeTaken = e - s;
-        console.log(`end get latest module: timetaken: ${timeTaken}`);
+        console.log(`end get latest module: timetaken: ${Math.floor(timeTaken / 1000)}`);
         const result = JSON.parse(output.trim());
         if (!(Constants.Success in result)) {
             throw new Error(result[Constants.Error]);
