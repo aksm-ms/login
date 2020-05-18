@@ -41,8 +41,13 @@ export default class Utils {
             }
         };
         await PowerShellToolRunner.init();
+        console.log(`start get latest module`);
+        let s = Date.now();
         await PowerShellToolRunner.executePowerShellScriptBlock(new ScriptBuilder()
                                 .getLatestModuleScript(moduleName), options);
+        let e = Date.now();
+        let timeTaken = e - s;
+        console.log(`end get latest module: timetaken: ${timeTaken}`);
         const result = JSON.parse(output.trim());
         if (!(Constants.Success in result)) {
             throw new Error(result[Constants.Error]);
