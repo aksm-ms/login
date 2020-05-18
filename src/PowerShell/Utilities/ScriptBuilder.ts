@@ -17,11 +17,13 @@ export default class ScriptBuilder {
             }
         }
         this.script += `try {
+            $curr = [system.diagnostics.stopwatch]::startNew()
             $ErrorActionPreference = "Stop"
             $WarningPreference = "SilentlyContinue"
             $output = @{}
             ${command}
             $output['${Constants.Success}'] = "true"
+            $output['secs'] = $curr.Elapsed.TotalSeconds.ToString()
         }
         catch {
             $output['${Constants.Error}'] = $_.exception.Message

@@ -52,7 +52,7 @@ export default class Utils {
         if (!Utils.isValidVersion(azLatestVersion)) {
             throw new Error(`Invalid AzPSVersion: ${azLatestVersion}`);
         }
-        console.log(`time elapsed: ${result.secs}`);
+        console.log(`time elapsed for getlatestmodule: ${result.secs}`);
         return azLatestVersion;
     }
 

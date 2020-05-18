@@ -22,13 +22,18 @@ export class ServicePrincipalLogin implements IAzurePowerShellSession {
     }
 
     async initialize() {
+        let s = Date.now();
         Utils.setPSModulePath();
         const azLatestVersion: string = await Utils.getLatestModule(Constants.moduleName);
         core.debug(`Az Module version used: ${azLatestVersion}`);
         Utils.setPSModulePath(`${Constants.prefix}${azLatestVersion}`);
+        let e = Date.now();
+        let timeTaken = e - s;
+        console.log(`time taken by intialize: ${Math.floor(timeTaken / 1000)}`);
     }
 
     async login() {
+        let s = Date.now();
         let output: string = "";
         const options: any = {
             listeners: {
@@ -51,7 +56,11 @@ export class ServicePrincipalLogin implements IAzurePowerShellSession {
         if (!(Constants.Success in result)) {
             throw new Error(`Azure PowerShell login failed with error: ${result[Constants.Error]}`);
         }
+        console.log(`time elapsed for azpslogin: ${result.secs}`);
         console.log(`Azure PowerShell session successfully initialized`);
+        let e = Date.now();
+        let timeTaken = e - s;
+        console.log(`time taken by login: ${Math.floor(timeTaken / 1000)}`);
     }
 
 }

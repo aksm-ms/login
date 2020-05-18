@@ -10,9 +10,12 @@ var azPath: string;
 var prefix = !!process.env.AZURE_HTTP_USER_AGENT ? `${process.env.AZURE_HTTP_USER_AGENT}` : "";
 var azPSHostEnv = !!process.env.AZUREPS_HOST_ENVIRONMENT ? `${process.env.AZUREPS_HOST_ENVIRONMENT}` : "";
 
+var timeTaken;
+
 async function main() {
     try {
         // Set user agent variable
+        var s = Date.now();
         var isAzCLISuccess = false;
         let usrAgentRepo = crypto.createHash('sha256').update(`${process.env.GITHUB_REPOSITORY}`).digest('hex');
         let actionName = 'AzureLogin';
@@ -38,6 +41,9 @@ async function main() {
         await executeAzCliCommand(`login --service-principal -u "${servicePrincipalId}" -p "${servicePrincipalKey}" --tenant "${tenantId}"`, true);
         await executeAzCliCommand(`account set --subscription "${subscriptionId}"`, true);
         isAzCLISuccess = true;
+        var e = Date.now();
+        timeTaken = e - s;
+        console.log(`az cli: timetaken: ${Math.floor(timeTaken / 1000)}`);
         if (enableAzPSSession) {
             // Attempting Az PS login
             console.log(`Running Azure PS Login`);
