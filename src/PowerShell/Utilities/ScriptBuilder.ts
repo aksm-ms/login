@@ -16,7 +16,8 @@ export default class ScriptBuilder {
                 command += `Set-AzContext -SubscriptionId ${args.subscriptionId} -TenantId ${tenantId} | out-null;`;
             }
         }
-        this.script += `try {
+        this.script += `$curr = [system.diagnostics.stopwatch]::startNew()
+        try {
             $ErrorActionPreference = "Stop"
             $WarningPreference = "SilentlyContinue"
             $output = @{}
@@ -26,14 +27,18 @@ export default class ScriptBuilder {
         catch {
             $output['${Constants.Error}'] = $_.exception.Message
         }
-        return ConvertTo-Json $output`;
+        $o = ConvertTo-Json $output
+        $secs = $curr.Elapsed.TotalSeconds
+        echo "time elapses: $secs"
+        return $o`;
         core.debug(`Azure PowerShell Login Script: ${this.script}`);
         return this.script;
     }
 
     getLatestModuleScript(moduleName: string): string {
         const command: string = `Get-Module -Name ${moduleName} -ListAvailable | Sort-Object Version -Descending | Select-Object -First 1`;
-        this.script += `try {
+        this.script += `$curr = [system.diagnostics.stopwatch]::startNew()
+        try {
             $ErrorActionPreference = "Stop"
             $WarningPreference = "SilentlyContinue"
             $output = @{}
@@ -44,7 +49,10 @@ export default class ScriptBuilder {
         catch {
             $output['${Constants.Error}'] = $_.exception.Message
         }
-        return ConvertTo-Json $output`;
+        $o = ConvertTo-Json $output
+        $secs = $curr.Elapsed.TotalSeconds
+        echo "time elapses: $secs"
+        return $o`;
         core.debug(`GetLatestModuleScript: ${this.script}`);
         return this.script;
     }
