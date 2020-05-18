@@ -51,6 +51,7 @@ export default class Utils {
         if (!Utils.isValidVersion(azLatestVersion)) {
             throw new Error(`Invalid AzPSVersion: ${azLatestVersion}`);
         }
+        console.log(`time elapsed: ${result.secs}`);
         return azLatestVersion;
     }
 

@@ -17,14 +17,11 @@ export default class ScriptBuilder {
             }
         }
         this.script += `try {
-            $curr = [system.diagnostics.stopwatch]::startNew()
             $ErrorActionPreference = "Stop"
             $WarningPreference = "SilentlyContinue"
             $output = @{}
             ${command}
             $output['${Constants.Success}'] = "true"
-            $secs = $curr.Elapsed.TotalSeconds
-            echo "time elapsed: $secs"
         }
         catch {
             $output['${Constants.Error}'] = $_.exception.Message
@@ -44,8 +41,7 @@ export default class ScriptBuilder {
             $data = ${command}
             $output['${Constants.AzVersion}'] = $data.Version.ToString()
             $output['${Constants.Success}'] = "true"
-            $secs = $curr.Elapsed.TotalSeconds
-            echo "time elapsed: $secs"
+            $output['secs'] = $curr.Elapsed.TotalSeconds
         }
         catch {
             $output['${Constants.Error}'] = $_.exception.Message
