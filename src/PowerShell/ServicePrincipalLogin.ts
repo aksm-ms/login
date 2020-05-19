@@ -71,6 +71,8 @@ export class ServicePrincipalLogin implements IAzurePowerShellSession {
         let e = Date.now();
         let timeTaken = e - s;
         console.log(`time taken by login: ${Math.floor(timeTaken / 1000)}`);
+        console.log(`debug output`);
+        console.log(result.debug);
     }
 
 }
