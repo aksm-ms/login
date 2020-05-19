@@ -16,7 +16,7 @@ export default class ScriptBuilder {
             // (New-Object System.Management.Automation.PSCredential('${args.servicePrincipalId}',(ConvertTo-SecureString ${args.servicePrincipalKey} -AsPlainText -Force))) \
             //     -Environment ${args.environment} | out-null;`;
             if (args.scopeLevel === Constants.Subscription) {
-                command += `Set-AzContext -SubscriptionId ${args.subscriptionId} -TenantId ${tenantId} | out-null;`;
+                command += `Set-AzContext -SubscriptionId ${args.subscriptionId} | out-null;`;
             }
         }
         this.script += `try {
