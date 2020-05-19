@@ -20,8 +20,8 @@ export default class Utils {
                 break;
             case "windows":
             case "windows_nt":
-                // modulePath = `C:\\Modules\\${azPSVersion};`;
-                modulePath = "C:\\Program Files\\WindowsPowerShell\\Modules\\Az.Accounts\\1.7.0\\";
+                modulePath = `C:\\Modules\\${azPSVersion};`;
+                // modulePath = "C:\\Program Files\\WindowsPowerShell\\Modules\\Az.Accounts\\1.7.0\\";
                 break;
             case "macos":
             case "darwin":
