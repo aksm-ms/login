@@ -20,7 +20,9 @@ export default class Utils {
                 break;
             case "windows":
             case "windows_nt":
-                modulePath = `C:\\Modules\\${azPSVersion};`;
+                // modulePath = `C:\\Modules\\${azPSVersion};`;
+                let winPath: string = "C:\\Program Files\\WindowsPowerShell\\Modules\\";
+                modulePath = `${winPath}${azPSVersion}`;
                 break;
             case "macos":
             case "darwin":
