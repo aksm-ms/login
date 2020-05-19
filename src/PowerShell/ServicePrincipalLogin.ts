@@ -66,7 +66,7 @@ export class ServicePrincipalLogin implements IAzurePowerShellSession {
         if (!(Constants.Success in result)) {
             throw new Error(`Azure PowerShell login failed with error: ${result[Constants.Error]}`);
         }
-        console.log(`time elapsed for azpslogin: ${result.secs}`);
+        console.log(`time taken inside script for azpslogin: ${result.secs}`);
         console.log(`Azure PowerShell session successfully initialized`);
         let e = Date.now();
         let timeTaken = e - s;
