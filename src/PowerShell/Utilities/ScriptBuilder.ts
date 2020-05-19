@@ -25,9 +25,7 @@ export default class ScriptBuilder {
             $ErrorActionPreference = "Stop"
             $WarningPreference = "SilentlyContinue"
             $output = @{}
-            $output['debug'] = ${command} 
-            $output['${Constants.Success}'] = "true"
-            $output['secs'] = $curr.Elapsed.TotalSeconds.ToString()
+            ${command} 
         }
         catch {
             $output['${Constants.Error}'] = $_.exception.Message
