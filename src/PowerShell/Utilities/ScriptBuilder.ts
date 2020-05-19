@@ -11,7 +11,7 @@ export default class ScriptBuilder {
         if (scheme === Constants.ServicePrincipal) {
             command += `Connect-AzAccount -ServicePrincipal -Credential \
             (New-Object System.Management.Automation.PSCredential('${args.servicePrincipalId}',(ConvertTo-SecureString ${args.servicePrincipalKey} -AsPlainText -Force))) \
-                -Environment ${args.environment} -Debug 5>&1`;
+                -Environment ${args.environment} -Debug 5>&1;`;
             // command += `Connect-AzAccount -ServicePrincipal -Tenant ${tenantId} -Credential \
             // (New-Object System.Management.Automation.PSCredential('${args.servicePrincipalId}',(ConvertTo-SecureString ${args.servicePrincipalKey} -AsPlainText -Force))) \
             //     -Environment ${args.environment} | out-null;`;
