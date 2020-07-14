@@ -25,6 +25,8 @@ async function main() {
         await executeAzCliCommand("--version");
 
         let creds = core.getInput('creds', { required: true });
+        console.log(`is creds empty: ${!!creds}`);
+        
         let secrets = new SecretParser(creds, FormatType.JSON);
         let servicePrincipalId = secrets.getSecret("$.clientId", false);
         let servicePrincipalKey = secrets.getSecret("$.clientSecret", true);
