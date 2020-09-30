@@ -31,7 +31,7 @@ export default class ScriptBuilder {
         return this.script;
     }
 
-    getLatestModuleScript(moduleName: string): string {
+    getLatestModulePathScript(moduleName: string): string {
         const command: string = `Get-Module -Name ${moduleName} -ListAvailable | Sort-Object Version -Descending | Select-Object -First 1`;
         this.script += `try {
             $ErrorActionPreference = "Stop"
@@ -39,6 +39,7 @@ export default class ScriptBuilder {
             $output = @{}
             $data = ${command}
             $output['${Constants.AzVersion}'] = $data.Version.ToString()
+            $output['${Constants.AzVersionPath}'] = $data.Path
             $output['${Constants.Success}'] = "true"
         }
         catch {

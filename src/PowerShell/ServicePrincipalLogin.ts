@@ -1,5 +1,3 @@
-import * as core from '@actions/core';
-
 import Utils from './Utilities/Utils';
 import PowerShellToolRunner from './Utilities/PowerShellToolRunner';
 import ScriptBuilder from './Utilities/ScriptBuilder';
@@ -22,10 +20,10 @@ export class ServicePrincipalLogin implements IAzurePowerShellSession {
     }
 
     async initialize() {
-        Utils.setPSModulePath();
-        const azLatestVersion: string = await Utils.getLatestModule(Constants.moduleName);
-        core.debug(`Az Module version used: ${azLatestVersion}`);
-        Utils.setPSModulePath(`${Constants.prefix}${azLatestVersion}`);
+        Utils.setPSModuleBasePath();
+        const azLatestModulePath: string = await Utils.getLatestModulePath(Constants.moduleName);
+        // Utils.setPSModulePath(`${Constants.prefix}${azLatestVersion}`);
+        Utils.setPSModulePath(`${azLatestModulePath}`);
     }
 
     async login() {
