@@ -6,14 +6,14 @@ export default class ScriptBuilder {
     script: string = "";
 
     getAzPSLoginScript(scheme: string, tenantId: string, args: any): string {
-        let command = `Clear-AzContext -Scope Process;
-             Clear-AzContext -Scope CurrentUser -Force -ErrorAction SilentlyContinue;`;
+        let command = `Measure-Command {Clear-AzContext -Scope Process} | Select-Object -Property TotalSeconds;
+             Measure-Command {Clear-AzContext -Scope CurrentUser -Force -ErrorAction SilentlyContinue} | Select-Object -Property TotalSeconds;`;
         if (scheme === Constants.ServicePrincipal) {
-            command += `Connect-AzAccount -ServicePrincipal -Tenant '${tenantId}' -Credential \
+            command += `Measure-Command {Connect-AzAccount -ServicePrincipal -Tenant '${tenantId}' -Credential \
             (New-Object System.Management.Automation.PSCredential('${args.servicePrincipalId}',(ConvertTo-SecureString '${args.servicePrincipalKey.replace("'", "''")}' -AsPlainText -Force))) \
-                -Environment '${args.environment}' | out-null;`;
+                -Environment '${args.environment}}' | Select-Object -Property TotalSeconds;`;
             if (args.scopeLevel === Constants.Subscription) {
-                command += `Set-AzContext -SubscriptionId '${args.subscriptionId}' -TenantId '${tenantId}' | out-null;`;
+                command += `Measure-Command {Set-AzContext -SubscriptionId '${args.subscriptionId}' -TenantId '${tenantId}}' | Select-Object -Property TotalSeconds;`;
             }
         }
         this.script += `try {
