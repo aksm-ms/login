@@ -13,6 +13,21 @@ export default class Utils {
      * If azPSVersion is not empty, folder path of exact Az module version is set
      */
     static setPSModulePath(azPSLatestVersionPath: string = "") {
+        const runner: string = process.env.RUNNER_OS || os.type();
+        switch (runner.toLowerCase()) {
+            case "linux":
+                azPSLatestVersionPath += `:`;
+                break;
+            case "windows":
+            case "windows_nt":
+                azPSLatestVersionPath += `;`;
+                break;
+            case "macos":
+            case "darwin":
+                throw new Error(`OS not supported`);
+            default:
+                throw new Error(`Unknown os: ${runner.toLowerCase()}`);
+        }
         process.env.PSModulePath = `${azPSLatestVersionPath}${process.env.PSModulePath}`;
     }
 

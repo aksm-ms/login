@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import Utils from './Utilities/Utils';
 import PowerShellToolRunner from './Utilities/PowerShellToolRunner';
 import ScriptBuilder from './Utilities/ScriptBuilder';
@@ -21,7 +23,8 @@ export class ServicePrincipalLogin implements IAzurePowerShellSession {
 
     async initialize() {
         Utils.setPSModuleBasePath();
-        const azLatestModulePath: string = await Utils.getLatestModulePath(Constants.moduleName);
+        // const azLatestModulePath: string = await Utils.getLatestModulePath(Constants.moduleName);
+        const azLatestModulePath = "C:\\Modules\\az_1.0.0";
         // Utils.setPSModulePath(`${Constants.prefix}${azLatestVersion}`);
         Utils.setPSModulePath(`${azLatestModulePath}`);
     }
