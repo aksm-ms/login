@@ -28,27 +28,27 @@ async function main() {
         let servicePrincipalId = secrets.getSecret("$.clientId", false);
         let servicePrincipalKey = secrets.getSecret("$.clientSecret", true);
         let tenantId = secrets.getSecret("$.tenantId", false);
-        let subscriptionId = secrets.getSecret("$.subscriptionId", false);
+        // let subscriptionId = secrets.getSecret("$.subscriptionId", false);
         const enableAzPSSession = core.getInput('enable-AzPSSession').toLowerCase() === "true";
         if (!servicePrincipalId || !servicePrincipalKey || !tenantId) {
             throw new Error("Not all values are present in the creds object. Ensure clientId, clientSecret and tenantId are supplied.");
         }
         // Attempting Az cli login
-        if (!subscriptionId) {
+        // if (!subscriptionId) {
             await executeAzCliCommand(`login --allow-no-subscriptions --service-principal -u "${servicePrincipalId}" -p "${servicePrincipalKey}" --tenant "${tenantId}"`, true);
-        }
-        else {
-            await executeAzCliCommand(`login --service-principal -u "${servicePrincipalId}" -p "${servicePrincipalKey}" --tenant "${tenantId}"`, true);
-            await executeAzCliCommand(`account set --subscription "${subscriptionId}"`, true);
-        }
+        // }
+        // else {
+        //     await executeAzCliCommand(`login --service-principal -u "${servicePrincipalId}" -p "${servicePrincipalKey}" --tenant "${tenantId}"`, true);
+        //     await executeAzCliCommand(`account set --subscription "${subscriptionId}"`, true);
+        // }
         isAzCLISuccess = true;
-        if (enableAzPSSession) {
-            // Attempting Az PS login
-            console.log(`Running Azure PS Login`);
-            const spnlogin: ServicePrincipalLogin = new ServicePrincipalLogin(servicePrincipalId, servicePrincipalKey, tenantId, subscriptionId);
-            await spnlogin.initialize();
-            await spnlogin.login();
-        }
+        // if (enableAzPSSession) {
+        //     // Attempting Az PS login
+        //     console.log(`Running Azure PS Login`);
+        //     const spnlogin: ServicePrincipalLogin = new ServicePrincipalLogin(servicePrincipalId, servicePrincipalKey, tenantId, subscriptionId);
+        //     await spnlogin.initialize();
+        //     await spnlogin.login();
+        // }
         console.log("Login successful.");    
     } catch (error) {
         if (!isAzCLISuccess) {
