@@ -21,16 +21,16 @@ async function main() {
         core.exportVariable('AZUREPS_HOST_ENVIRONMENT', azurePSHostEnv);
 
         azPath = await io.which("az", true);
-        // let output: string = "";
-        // const options: any = {
-        //     listeners: {
-        //         stdout: (data: Buffer) => {
-        //             output += data.toString();
-        //         }
-        //     }
-        // };
-        // await executeAzCliCommand("--version", true, options);
-        // core.debug(`az cli version used:\n${output}`);
+        let output: string = "";
+        const options: any = {
+            listeners: {
+                stdout: (data: Buffer) => {
+                    output += data.toString();
+                }
+            }
+        };
+        await executeAzCliCommand("--version", true, options);
+        core.debug(`az cli version used:\n${output}`);
     
         let creds = core.getInput('creds', { required: true });
         let secrets = new SecretParser(creds, FormatType.JSON);
@@ -50,48 +50,28 @@ async function main() {
 
         // Attempting Az cli login
         if (allowNoSubscriptionsLogin) {
-            await executeAzCliCommand(`login --allow-no-subscriptions --service-principal -u "${servicePrincipalId}" -p "${servicePrincipalKey}" --tenant "${tenantId}"`, true);
-        }
-        else {
-            let output2: string = "";
-            let error2: string = "";
-            const options2: any = {
-                listeners: {
-                    stdout: (data: Buffer) => {
-                        output2 += data.toString();
-                    },
-                    stderr: (data: Buffer) => {
-                        error2 += data.toString();
-                  }
-                }
-            };
-            let params = [
-                " --service-principal",
+            let parameters = [
+                "--allow-no-subscriptions",
+                "--service-principal",
                 "-u", servicePrincipalId,
                 "-p", servicePrincipalKey,
                 "--tenant", tenantId
             ];
-            await executeAzCliCommand(`login`, true, options2, params);
-            console.log(`after az login with SP: stdout:\n ${output2}; stderr:\n ${error2}`);
-
-
-            // let output3: string = "";
-            // let error3: string = "";
-            // const options3: any = {
-            //     listeners: {
-            //         stdout: (data: Buffer) => {
-            //             output3 += data.toString();
-            //         },
-            //         stderr: (data: Buffer) => {
-            //             error3 += data.toString();
-            //       }
-            //     }
-            // };
-            // params = [
-            //     "--subscription", subscriptionId
-            // ];
-            // await executeAzCliCommand(`account set`, true, options3, params);
-            // console.log(`after az login with SP: stdout:\n ${output3}; stderr:\n ${error3}`);
+            await executeAzCliCommand(`login`, true, parameters);
+        }
+        else {
+            let parameters = [
+                "--service-principal",
+                "-u", servicePrincipalId,
+                "-p", servicePrincipalKey,
+                "--tenant", tenantId
+            ];
+            await executeAzCliCommand(`login`, true, parameters);
+            parameters = [
+                "--subscription",
+                subscriptionId
+            ];
+            await executeAzCliCommand(`account set`, true, parameters);
         }
         isAzCLISuccess = true;
         if (enableAzPSSession) {
@@ -116,13 +96,12 @@ async function main() {
     }
 }
 
-async function executeAzCliCommand(command: string, silent?: boolean, options: any = {}, params: any = []) {
+async function executeAzCliCommand(command: string, silent?: boolean, options: any = {}, parameters: any = []) {
     options.silent = !!silent;
     try {
-        await exec.exec(`"${azPath}"`, params,  options); 
+        await exec.exec(`"${azPath}" ${command}`, parameters,  options); 
     }
     catch(error) {
-        console.error(`in executeAzCliCommand: in catch: ${error}`);
         throw new Error(error);
     }
 }
