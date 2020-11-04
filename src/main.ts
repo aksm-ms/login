@@ -21,16 +21,16 @@ async function main() {
         core.exportVariable('AZUREPS_HOST_ENVIRONMENT', azurePSHostEnv);
 
         azPath = await io.which("az", true);
-        let output: string = "";
-        const options: any = {
-            listeners: {
-                stdout: (data: Buffer) => {
-                    output += data.toString();
-                }
-            }
-        };
-        await executeAzCliCommand("--version", true, options);
-        core.debug(`az cli version used:\n${output}`);
+        // let output: string = "";
+        // const options: any = {
+        //     listeners: {
+        //         stdout: (data: Buffer) => {
+        //             output += data.toString();
+        //         }
+        //     }
+        // };
+        // await executeAzCliCommand("--version", true, options);
+        // core.debug(`az cli version used:\n${output}`);
     
         let creds = core.getInput('creds', { required: true });
         let secrets = new SecretParser(creds, FormatType.JSON);
@@ -68,7 +68,7 @@ async function main() {
             let params = [
                 "-u", servicePrincipalId,
                 "-p", servicePrincipalKey,
-                "--tenant", tenantId,
+                "--tenant", tenantId
             ];
             await executeAzCliCommand(`login --service-principal`, true, options2, params);
             console.log(`after az login with SP: stdout:\n ${output2}; stderr:\n ${error2}`);
