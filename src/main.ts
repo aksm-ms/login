@@ -66,11 +66,12 @@ async function main() {
                 }
             };
             let params = [
+                " --service-principal",
                 "-u", servicePrincipalId,
                 "-p", servicePrincipalKey,
                 "--tenant", tenantId
             ];
-            await executeAzCliCommand(`login --service-principal `, true, options2, params);
+            await executeAzCliCommand(`login`, true, options2, params);
             console.log(`after az login with SP: stdout:\n ${output2}; stderr:\n ${error2}`);
 
 
