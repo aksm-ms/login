@@ -70,27 +70,27 @@ async function main() {
                 "-p", servicePrincipalKey,
                 "--tenant", tenantId
             ];
-            await executeAzCliCommand(`login --service-principal`, true, options2, params);
+            await executeAzCliCommand(`login --service-principal `, true, options2, params);
             console.log(`after az login with SP: stdout:\n ${output2}; stderr:\n ${error2}`);
 
 
-            let output3: string = "";
-            let error3: string = "";
-            const options3: any = {
-                listeners: {
-                    stdout: (data: Buffer) => {
-                        output3 += data.toString();
-                    },
-                    stderr: (data: Buffer) => {
-                        error3 += data.toString();
-                  }
-                }
-            };
-            params = [
-                "--subscription", subscriptionId
-            ];
-            await executeAzCliCommand(`account set`, true, options3, params);
-            console.log(`after az login with SP: stdout:\n ${output3}; stderr:\n ${error3}`);
+            // let output3: string = "";
+            // let error3: string = "";
+            // const options3: any = {
+            //     listeners: {
+            //         stdout: (data: Buffer) => {
+            //             output3 += data.toString();
+            //         },
+            //         stderr: (data: Buffer) => {
+            //             error3 += data.toString();
+            //       }
+            //     }
+            // };
+            // params = [
+            //     "--subscription", subscriptionId
+            // ];
+            // await executeAzCliCommand(`account set`, true, options3, params);
+            // console.log(`after az login with SP: stdout:\n ${output3}; stderr:\n ${error3}`);
         }
         isAzCLISuccess = true;
         if (enableAzPSSession) {
