@@ -57,7 +57,7 @@ async function main() {
                 "-p", servicePrincipalKey,
                 "--tenant", tenantId
             ];
-            await executeAzCliCommand(`login`, true, parameters);
+            await executeAzCliCommand(`login`, true, {}, parameters);
         }
         else {
             let parameters = [
@@ -66,12 +66,12 @@ async function main() {
                 "-p", servicePrincipalKey,
                 "--tenant", tenantId
             ];
-            await executeAzCliCommand(`login`, true, parameters);
+            await executeAzCliCommand(`login`, true, {}, parameters);
             parameters = [
                 "--subscription",
                 subscriptionId
             ];
-            await executeAzCliCommand(`account set`, true, parameters);
+            await executeAzCliCommand(`account set`, true, {}, parameters);
         }
         isAzCLISuccess = true;
         if (enableAzPSSession) {
