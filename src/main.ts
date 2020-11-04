@@ -33,7 +33,7 @@ async function main() {
                   }
             }
         };
-        await executeAzCliCommand("--version", true, options);
+        await executeAzCliCommand("--version --only-show-errors", true, options);
         core.debug(`az cli version used:\n${output}`);
         console.log(`after az version: stdout:\n ${output}; stderr:\n ${error}`);
     
