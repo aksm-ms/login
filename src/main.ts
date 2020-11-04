@@ -82,7 +82,7 @@ async function main() {
 async function executeAzCliCommand(command: string, silent?: boolean, options: any = {}) {
     options.silent = !!silent;
     try {
-        await exec.exec(`"${azPath}" ${command}`, [],  options); 
+        await exec.exec(`"${azPath}"`, [command],  options); 
     }
     catch(error) {
         throw new Error(error);
