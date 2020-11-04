@@ -22,20 +22,15 @@ async function main() {
 
         azPath = await io.which("az", true);
         let output: string = "";
-        let error: string = "";
         const options: any = {
             listeners: {
                 stdout: (data: Buffer) => {
                     output += data.toString();
-                },
-                stderr: (data: Buffer) => {
-                    error += data.toString();
-                  }
+                }
             }
         };
-        await executeAzCliCommand("--version --only-show-errors", true, options);
+        await executeAzCliCommand("--version", true, options);
         core.debug(`az cli version used:\n${output}`);
-        console.log(`after az version: stdout:\n ${output}; stderr:\n ${error}`);
     
         let creds = core.getInput('creds', { required: true });
         let secrets = new SecretParser(creds, FormatType.JSON);
@@ -70,7 +65,12 @@ async function main() {
                   }
                 }
             };
-            await executeAzCliCommand(`login --service-principal -u "${servicePrincipalId}" -p "${servicePrincipalKey}" --tenant "${tenantId}" --only-show-errors`, true, options2);
+            let params = [
+                "-u", servicePrincipalId,
+                "-p", servicePrincipalKey,
+                "--tenant", tenantId,
+            ];
+            await executeAzCliCommand(`login --service-principal`, true, options2, params);
             console.log(`after az login with SP: stdout:\n ${output2}; stderr:\n ${error2}`);
 
 
@@ -86,7 +86,10 @@ async function main() {
                   }
                 }
             };
-            await executeAzCliCommand(`account set --subscription "${subscriptionId}"--only-show-errors`, true, options3);
+            params = [
+                "--subscription", subscriptionId
+            ];
+            await executeAzCliCommand(`account set`, true, options3, params);
             console.log(`after az login with SP: stdout:\n ${output3}; stderr:\n ${error3}`);
         }
         isAzCLISuccess = true;
@@ -112,11 +115,8 @@ async function main() {
     }
 }
 
-async function executeAzCliCommand(command: string, silent?: boolean, options: any = {}) {
+async function executeAzCliCommand(command: string, silent?: boolean, options: any = {}, params: any = []) {
     options.silent = !!silent;
-    let params = [
-        command
-    ];
     try {
         await exec.exec(`"${azPath}"`, params,  options); 
     }
