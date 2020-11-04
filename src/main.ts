@@ -70,7 +70,7 @@ async function main() {
                   }
                 }
             };
-            await executeAzCliCommand(`login --service-principal -u "${servicePrincipalId}" -p "${servicePrincipalKey}" --tenant "${tenantId}"`, true, options2);
+            await executeAzCliCommand(`login --service-principal -u "${servicePrincipalId}" -p "${servicePrincipalKey}" --tenant "${tenantId}" --only-show-errors`, true, options2);
             console.log(`after az login with SP: stdout:\n ${output2}; stderr:\n ${error2}`);
 
 
@@ -86,7 +86,7 @@ async function main() {
                   }
                 }
             };
-            await executeAzCliCommand(`account set --subscription "${subscriptionId}"`, true, options3);
+            await executeAzCliCommand(`account set --subscription "${subscriptionId}"--only-show-errors`, true, options3);
             console.log(`after az login with SP: stdout:\n ${output3}; stderr:\n ${error3}`);
         }
         isAzCLISuccess = true;
